@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import toast, { Toaster } from "react-hot-toast";
 import { Input, Button } from "@nextui-org/react";
 import { Tabs, Tab } from "@nextui-org/react";
+import { Select, SelectItem } from "@nextui-org/react";
 import { Progress } from "@nextui-org/react";
 
 import FileInput from "./components/fileInput";
@@ -9,11 +10,20 @@ import FileInput from "./components/fileInput";
 import { EyeFilledIcon } from "./icons/eyeFilledIcon";
 import { EyeSlashFilledIcon } from "./icons/eyeSlashFilledIcon";
 
+const _algorithms = ["aes-256-cbc", "aes-256-cfb", "aes-256-ctr", "aes-256-gcm", "aes-256-ofb"];
+
+const algorithms = _algorithms.map((algorithm) => ({
+  label: algorithm,
+  value: algorithm,
+}));
+
 export default function App() {
   const [activeTab, setActiveTab] = useState("encrypt");
   const [password, setPassword] = useState("");
   const [isVisible, setIsVisible] = useState(false);
   const toggleVisibility = () => setIsVisible(!isVisible);
+
+  const [selectedAlgorithm, setSelectedAlgorithm] = useState(new Set(["aes-256-cbc"]));
 
   const [progress, setProgress] = useState(0);
   const [file, setFile] = useState(null);
@@ -58,6 +68,8 @@ export default function App() {
           <ul className="list-disc ml-10">
             <li>Incorrect password</li>
             <li>File is not encrypted</li>
+            <li>File is corrupted</li>
+            <li>Algorithm mismatch</li>
           </ul>
         </div>
       </div>,
@@ -67,14 +79,20 @@ export default function App() {
   const handleButton = async () => {
     if (!password || password.length === 0) return errorToast("🔑", "Please enter a password");
 
+    const selectedAlgorithms = Array.from(selectedAlgorithm);
+    if (selectedAlgorithms.length === 0) return errorToast("🔒", "Please select an algorithm");
+    const _algo = selectedAlgorithms[0];
+
+    console.log("algo", _algo);
+
     setIsSucess(false);
     setIsError(false);
     const filepath = file.path;
     try {
       if (activeTab === "encrypt") {
-        await window.api.encrypt(filepath, password, updateProgress, updateError);
+        await window.api.encrypt(filepath, password, _algo, updateProgress, updateError);
       } else {
-        await window.api.decrypt(filepath, password, updateProgress, updateError);
+        await window.api.decrypt(filepath, password, _algo, updateProgress, updateError);
       }
       setIsSucess(true);
     } catch (error) {
@@ -135,6 +153,23 @@ export default function App() {
                 </button>
               }
             />
+
+            <Select
+              aria-label="Select algorithm"
+              label=""
+              className="w-[30%]"
+              labelPlacement="outside-left"
+              value={selectedAlgorithm}
+              onSelectionChange={setSelectedAlgorithm}
+              defaultSelectedKeys={["aes-256-cbc"]}
+              multiple={false}
+            >
+              {algorithms.map((algorithm) => (
+                <SelectItem key={algorithm.value} value={algorithm.value}>
+                  {algorithm.label}
+                </SelectItem>
+              ))}
+            </Select>
 
             <Button
               onClick={handleButton}
