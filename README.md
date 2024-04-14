@@ -2,7 +2,11 @@
 
 ---
 
-![Cryptique Logo]("/assets/icons/linux/logo.png")
+<img src="assets/icons/linux/logo.png" alt="cryptique logo" width="200px"/>
+
+<img src="https://i.imgur.com/hejoWoK.png" alt="cryptique v1" />
+
+---
 
 ## Table of Contents
 
