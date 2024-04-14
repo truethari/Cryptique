@@ -1,4 +1,4 @@
-import { app, shell, BrowserWindow, ipcMain } from "electron";
+import { app, shell, BrowserWindow, ipcMain, Menu, MenuItem } from "electron";
 import { join } from "path";
 import { electronApp, optimizer, is } from "@electron-toolkit/utils";
 
@@ -15,7 +15,10 @@ function createWindow() {
       contextIsolation: true,
       sandbox: false,
     },
+    icon: "assets/icons/linux/icon.ico",
   });
+
+  mainWindow.setMenuBarVisibility(false);
 
   mainWindow.on("ready-to-show", () => {
     mainWindow.show();
@@ -34,6 +37,20 @@ function createWindow() {
     mainWindow.loadFile(join(__dirname, "../renderer/index.html"));
   }
 }
+
+const template = [
+  {
+    label: "Help",
+    submenu: [
+      {
+        role: "About",
+      },
+    ],
+  },
+];
+
+const menu = Menu.buildFromTemplate(template);
+Menu.setApplicationMenu(menu);
 
 // This method will be called when Electron has finished
 // initialization and is ready to create browser windows.
