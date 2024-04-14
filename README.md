@@ -97,4 +97,4 @@ Distributed under the MIT License. See [LICENSE](https://github.com/truethari/Cr
 
 ## 🌱 Contribution
 
-If you have any suggestions on what to improve in Reactfolio and would like to share them, feel free to leave an issue or fork project to implement your own ideas
+If you have any suggestions on what to improve in Cryptique and would like to share them, feel free to leave an issue or fork project to implement your own ideas
