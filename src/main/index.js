@@ -4,13 +4,15 @@ import { electronApp, optimizer, is } from "@electron-toolkit/utils";
 
 function createWindow() {
   const mainWindow = new BrowserWindow({
-    width: 900,
+    width: 800,
     height: 670,
     show: false,
+    resizable: false,
     autoHideMenuBar: true,
     ...(process.platform === "linux" ? {} : {}),
     webPreferences: {
       preload: join(__dirname, "../preload/index.js"),
+      contextIsolation: true,
       sandbox: false,
     },
   });

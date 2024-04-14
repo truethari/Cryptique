@@ -19,7 +19,10 @@
   },
   "dependencies": {
     "@electron-toolkit/preload": "^3.0.0",
-    "@electron-toolkit/utils": "^3.0.0"
+    "@electron-toolkit/utils": "^3.0.0",
+    "@nextui-org/react": "^2.2.10",
+    "framer-motion": "^11.0.28",
+    "react-hot-toast": "^2.4.1"
   },
   "devDependencies": {
     "@electron-toolkit/eslint-config": "^1.0.2",
